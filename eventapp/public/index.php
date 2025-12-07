@@ -147,16 +147,21 @@ $list_of_events = getEventsWithFilters($search_keyword, $filter_org, $filter_ven
                 </span>
             </td>
             <td>
-              <div class="btn-group" role="group">
-                  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class="d-inline">
-                      <input type="hidden" name="event_id_to_update" value="<?php echo $event['event_id']; ?>" />
-                      <button type="submit" name="updateBtn" class="btn btn-sm btn-outline-primary">Edit</button>
-                  </form>
-                  <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class="d-inline ms-1">
-                      <input type="hidden" name="event_id_to_delete" value="<?php echo $event['event_id']; ?>" />
-                      <button type="submit" name="deleteBtn" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?');">Delete</button>
-                  </form>
-              </div>
+             <?php if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+  <div class="btn-group" role="group">
+      <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class="d-inline">
+          <input type="hidden" name="event_id_to_update" value="<?php echo $event['event_id']; ?>" />
+          <button type="submit" name="updateBtn" class="btn btn-sm btn-outline-primary">Edit</button>
+      </form>
+
+      <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class="d-inline ms-1">
+          <input type="hidden" name="event_id_to_delete" value="<?php echo $event['event_id']; ?>" />
+          <button type="submit" name="deleteBtn" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?');">
+              Delete
+          </button>
+      </form>
+  </div>
+<?php endif; ?>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -168,6 +173,7 @@ $list_of_events = getEventsWithFilters($search_keyword, $filter_org, $filter_ven
   <hr/>
 
   <div class="row g-3 mt-4 mb-5">
+    <?php if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
     <div class="col-md-12">
       <div class="card border-secondary">
         <div class="card-header bg-secondary text-white">
@@ -234,6 +240,7 @@ $list_of_events = getEventsWithFilters($search_keyword, $filter_org, $filter_ven
       </div>
     </div>  
   </div>
+    <?php endif; ?>
 
 </div>
 <?php include('footer.html'); ?>
