@@ -14,12 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user['user_id'];
-        $_SESSION['role'] = $user['role'];  // Store role
+        $_SESSION['role'] = $user['role'];
 
         header('Location: /index.php');
         exit;
     } else {
-        $error = "Invalid credentials.";
+        $error = "Invalid email or password.";
     }
 }
 ?>
@@ -51,6 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     h2 {
         margin-bottom: 15px;
+    }
+
+    .error-box {
+        background: #ffe5e5;
+        border: 1px solid #ff9e9e;
+        color: #b30000;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        font-size: 14px;
     }
 
     label {
@@ -96,7 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2>Login</h2>
 
     <?php if (!empty($error)): ?>
-        <p style="color:red;"><?php echo e($error); ?></p>
+        <div class="error-box">
+             <?php echo e($error); ?>
+        </div>
     <?php endif; ?>
 
     <form method="post">
