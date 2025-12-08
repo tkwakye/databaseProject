@@ -11,15 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($pass, $user['password_hash'])) {
-
-        // regenerate session id
         session_regenerate_id(true);
 
-        // ✅ Store user ID
         $_SESSION['user_id'] = $user['user_id'];
-
-        // ✅ Store ROLE (admin or member)
-        $_SESSION['role'] = $user['role'];
+        $_SESSION['role'] = $user['role'];  // Store role
 
         header('Location: /index.php');
         exit;
@@ -30,15 +25,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Login</title></head>
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 25px;
+        border-radius: 6px;
+        width: 320px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 3px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    .switch-link {
+        margin-top: 12px;
+        font-size: 14px;
+    }
+</style>
+
+</head>
 <body>
-<h2>Login</h2>
-<?php if(!empty($error)) echo '<p style="color:red;">'.e($error).'</p>'; ?>
-<form method="post">
-  <label>Email <input name="email" type="email" required></label><br>
-  <label>Password <input name="password" type="password" required></label><br>
-  <button>Login</button>
-</form>
-<p>No account? <a href="/register.php">Register</a></p>
+
+<div class="form-container">
+    <h2>Login</h2>
+
+    <?php if (!empty($error)): ?>
+        <p style="color:red;"><?php echo e($error); ?></p>
+    <?php endif; ?>
+
+    <form method="post">
+        <label>Email
+            <input name="email" type="email" required>
+        </label>
+
+        <label>Password
+            <input name="password" type="password" required>
+        </label>
+
+        <button>Login</button>
+    </form>
+
+    <p class="switch-link">
+        No account? <a href="/register.php">Register</a>
+    </p>
+</div>
+
 </body>
 </html>
